@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+<title>Oreo Stacking</title>
+<style>
+.ovaldown {
+  height: 30px;
+  width: 100px;
+  background-color: brown;
+  border-radius: 50%;
+}
+.ovalup {
+  height: 30px;
+  width: 100px;
+  background-color:pink;
+  border: 0.1rem solid black;;
+  border-radius: 50%;
+}
+.ovalcream {
+  height: 30px;
+  width: 100px;
+  background-color: pink;
+  border-radius: 50%;
+}
+
+#mydiv {
+  position: absolute;
+  z-index: 9; 
+  text-align: center; 
+  overflow: auto;
+  border: 1px solid #fbfbfb;
+}
+
+body {
+  perspective: 800px;
+} 
+
+.rotated {
+  transform: rotate3d(1, 2, -1, 192deg);
+  background-color: pink;
+  
+}
+
+</style>
+</head>
+<body>
+
+<div class="text-center">
+<div class="col-md-6 col-md-offset-3">
+<h2>Input OREO</h2>
+
+<input type="text" id="oreo" value="" style="margin-top: 20px;"> 
+  
+ 
+
+<button type="submit" id="submit" onclick="addOreo();">Create OREO</button>
+
+
+<button onclick="clearOreo()">Delete OREO</button> 
+
+<div class="biscuits" id="mydiv"> 
+<div id="o"></div>
+<div id="r"></div>
+<div id="e"></div>
+</div>  
+
+</div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+	function addOreo(){
+
+	
+	var objTo = document.getElementById('o');
+
+	inputValue=document.getElementById("oreo").value;
+
+
+	//alert(inputValue.length);
+
+	addO = '<div class="ovaldown"></div>';
+	addR = '<div class="ovalcream"></div>';
+	addE = '<div class="ovalup"></div>';
+	
+	var divtest = document.createElement("div");
+
+	for(i=0; i<=inputValue.length; i++){
+		if(inputValue[i] =='o' || inputValue[i] =='O'){ 
+			divtest.innerHTML += addO; 
+			objTo.appendChild(divtest); 
+		}
+
+		if( (inputValue[i] + inputValue[i+1]) =='re' || (inputValue[i] + inputValue[i+1]) =='RE'){
+			divtest.innerHTML += addR; 
+			objTo.appendChild(divtest);
+		}
+		 
+		} 
+
+
+	}
+ 
+</script> 
+
+<script>
+//Make the DIV element draggagle:
+dragElement(document.getElementById("mydiv"));
+
+function dragElement(elmnt) {
+  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  if (document.getElementById(elmnt.id + "header")) {
+    
+    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+  } else {
+    
+    elmnt.onmousedown = dragMouseDown;
+  }
+
+  function dragMouseDown(e) {
+    e = e || window.event;
+    e.preventDefault();
+    
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+    document.onmouseup = closeDragElement;
+    
+    document.onmousemove = elementDrag;
+  }
+
+  function elementDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+   
+    pos1 = pos3 - e.clientX;
+    pos2 = pos4 - e.clientY;
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+   
+    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+  }
+
+  function closeDragElement() {
+   
+    document.onmouseup = null;
+    document.onmousemove = null;
+  }
+}
+</script>
+
+<script>
+function myFunction() {
+  document.getElementById("mydiv").style.resize = "both";
+}
+</script>
+
+<script>
+function clearOreo() {
+  var myobj = document.getElementById("mydiv");
+myobj.remove();
+
+document. getElementById("oreo").value = "";
+
+window.location.reload();
+}
+</script>
+
+
+</body>
+</html> 
